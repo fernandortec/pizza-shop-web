@@ -1,9 +1,15 @@
-import { Button } from "@/components/ui/button";
+import "./global.css";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
 
-export function App() {
-	return (
-		<div className="flex justify-center items-center h-screen">
-			<Button>Enviar</Button>
-		</div>
-	);
+const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+	interface Register {
+		router: typeof router;
+	}
+}
+
+export function App(): JSX.Element {
+	return <RouterProvider router={router} />;
 }
