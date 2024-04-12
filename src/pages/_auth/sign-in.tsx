@@ -8,14 +8,16 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { AuthLayout } from "@/layouts/auth";
 import { type SignInFormSchema, signInFormSchema } from "@/schemas/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/sign-in/")({
+export const Route = createFileRoute("/_auth/sign-in")({
 	component: () => (
 		<>
 			<Helmet title="Login" />
@@ -39,6 +41,10 @@ function SignInPage(): JSX.Element {
 
 	return (
 		<main className="p-8">
+			<Button asChild className="absolute right-8 top-8" variant="ghost">
+				<Link to="/sign-up">Novo estabelecimento</Link>
+			</Button>
+
 			<div className="w-[22rem] flex flex-col justify-center gap-6">
 				<header className="flex flex-col gap-2 text-center">
 					<h1 className="text-3xl font-semibold tracking-tight">

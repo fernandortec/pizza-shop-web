@@ -19,7 +19,7 @@ export function AuthLayout({ children }: AuthLayoutProps): JSX.Element {
 				</footer>
 			</div>
 
-			<div className="flex flex-col items-center justify-center">
+			<div className="flex flex-col items-center justify-center relative">
 				{children}
 			</div>
 		</div>

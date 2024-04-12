@@ -10,63 +10,53 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as SignInImport } from './routes/sign-in'
-import { Route as DashboardImport } from './routes/dashboard'
-import { Route as IndexImport } from './routes/index'
-import { Route as SignInIndexImport } from './routes/sign-in/index'
-import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as rootRoute } from './pages/__root'
+import { Route as AuthImport } from './pages/_auth'
+import { Route as DashboardIndexImport } from './pages/_dashboard/index'
+import { Route as AuthSignUpImport } from './pages/_auth/sign-up'
+import { Route as AuthSignInImport } from './pages/_auth/sign-in'
 
 // Create/Update Routes
 
-const SignInRoute = SignInImport.update({
-  path: '/sign-in',
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
-} as any)
-
-const DashboardRoute = DashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SignInIndexRoute = SignInIndexImport.update({
-  path: '/',
-  getParentRoute: () => SignInRoute,
 } as any)
 
 const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthSignUpRoute = AuthSignUpImport.update({
+  path: '/sign-up',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthSignInRoute = AuthSignInImport.update({
+  path: '/sign-in',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      preLoaderRoute: typeof IndexImport
+    '/_auth': {
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
+    '/_auth/sign-in': {
+      preLoaderRoute: typeof AuthSignInImport
+      parentRoute: typeof AuthImport
     }
-    '/sign-in': {
-      preLoaderRoute: typeof SignInImport
-      parentRoute: typeof rootRoute
+    '/_auth/sign-up': {
+      preLoaderRoute: typeof AuthSignUpImport
+      parentRoute: typeof AuthImport
     }
-    '/dashboard/': {
+    '/_dashboard/': {
       preLoaderRoute: typeof DashboardIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/sign-in/': {
-      preLoaderRoute: typeof SignInIndexImport
-      parentRoute: typeof SignInImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -74,9 +64,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  IndexRoute,
-  DashboardRoute.addChildren([DashboardIndexRoute]),
-  SignInRoute.addChildren([SignInIndexRoute]),
+  AuthRoute.addChildren([AuthSignInRoute, AuthSignUpRoute]),
+  DashboardIndexRoute,
 ])
 
 /* prettier-ignore-end */
