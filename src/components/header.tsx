@@ -17,7 +17,7 @@ export function Header(): JSX.Element {
 						<Home className="w-4 h-4" />
 						Início
 					</NavLink>
-					<NavLink to="/sign-up">
+					<NavLink to="/orders">
 						<UtensilsCrossed className="w-4 h-4" />
 						Pedidos
 					</NavLink>

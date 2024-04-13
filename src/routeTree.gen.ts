@@ -16,6 +16,7 @@ import { Route as AuthImport } from './pages/_auth'
 import { Route as DashboardIndexImport } from './pages/_dashboard/index'
 import { Route as AuthSignUpImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInImport } from './pages/_auth/sign-in'
+import { Route as DashboardOrdersIndexImport } from './pages/_dashboard/orders/index'
 
 // Create/Update Routes
 
@@ -44,6 +45,11 @@ const AuthSignInRoute = AuthSignInImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const DashboardOrdersIndexRoute = DashboardOrdersIndexImport.update({
+  path: '/orders/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -68,6 +74,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/orders/': {
+      preLoaderRoute: typeof DashboardOrdersIndexImport
+      parentRoute: typeof DashboardImport
+    }
   }
 }
 
@@ -75,7 +85,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthSignInRoute, AuthSignUpRoute]),
-  DashboardRoute.addChildren([DashboardIndexRoute]),
+  DashboardRoute.addChildren([DashboardIndexRoute, DashboardOrdersIndexRoute]),
 ])
 
 /* prettier-ignore-end */
