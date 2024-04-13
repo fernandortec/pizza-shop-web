@@ -8,11 +8,9 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthLayout } from "@/layouts/auth";
-import { type SignInFormSchema, signInFormSchema } from "@/schemas/sign-in";
+import { signInFormSchema, type SignInFormSchema } from "@/schemas/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
