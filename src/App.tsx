@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -15,9 +16,11 @@ declare module "@tanstack/react-router" {
 export function App(): JSX.Element {
 	return (
 		<HelmetProvider>
-			<Toaster richColors closeButton />
-			<Helmet titleTemplate="%s | pizza.shop" />
-			<RouterProvider router={router} />
+			<ThemeProvider storageKey="pizzashop-theme" defaultTheme="dark">
+				<Toaster richColors closeButton />
+				<Helmet titleTemplate="%s | pizza.shop" />
+				<RouterProvider router={router} />
+			</ThemeProvider>
 		</HelmetProvider>
 	);
 }
