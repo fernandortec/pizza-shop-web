@@ -1,3 +1,5 @@
+import { GetManagedRestaurant } from "@/api/get-managed-restaurant";
+import { getProfile } from "@/api/get-profile";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -7,9 +9,21 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useQuery } from "@tanstack/react-query";
 import { Building, ChevronDown, LogOut } from "lucide-react";
 
 export function AccountMenu(): JSX.Element {
+	const { data: profile, isLoading: isLoadingProfile } = useQuery({
+		queryFn: getProfile,
+		queryKey: ["profile"],
+	});
+
+	const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
+		useQuery({
+			queryFn: GetManagedRestaurant,
+			queryKey: ["managed-restaurant"],
+		});
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -17,15 +31,15 @@ export function AccountMenu(): JSX.Element {
 					variant="outline"
 					className="flex items-center gap-2 select-none"
 				>
-					Pizza Shop
+					{managedRestaurant?.name}
 					<ChevronDown className="w-4 h-4" />
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-56">
 				<DropdownMenuLabel className="flex flex-col">
-					<span>Fernando Rodrigues</span>
+					<span>{profile?.name}</span>
 					<span className="text-xs font-normal text-muted-foreground">
-						fernandor@gmail.com
+						{profile?.email}
 					</span>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />

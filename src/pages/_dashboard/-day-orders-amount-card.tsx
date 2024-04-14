@@ -5,7 +5,7 @@ export function DayOrdersAmountCard(): JSX.Element {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row space-y-0 items-center justify-between pb-2">
-				<CardTitle className="text-base">Pedidos</CardTitle>
+				<CardTitle className="text-base">Pedidos (dia)</CardTitle>
 				<Utensils className="w-4 g-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent className="space-y-1">
