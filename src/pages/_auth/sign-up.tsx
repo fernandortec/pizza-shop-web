@@ -1,3 +1,4 @@
+import { registerRestaurant } from "@/api/register-restaurant";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -11,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { type SignUpFormSchema, signUpFormSchema } from "@/schemas/sign-up";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
@@ -32,13 +34,23 @@ function SignUpPage(): JSX.Element {
 		resolver: zodResolver(signUpFormSchema),
 	});
 
+	const { mutateAsync: signUpRestaurant } = useMutation({
+		mutationFn: registerRestaurant,
+	});
+
 	async function handleSignUp(data: SignUpFormSchema): Promise<void> {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+		const { email, managerName, phone, restaurantName } = data;
+		await signUpRestaurant({ email, managerName, phone, restaurantName });
 
 		toast.success("Cadastro feito com sucesso", {
 			action: {
 				label: "Login",
-				onClick: () => navigate({ from: "/sign-up", to: "/sign-in" }),
+				onClick: () =>
+					navigate({
+						from: "/sign-up",
+						to: "/sign-in",
+						search: { email: email },
+					}),
 			},
 		});
 	}

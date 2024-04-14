@@ -16,6 +16,10 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const signInParamsSchema = z.object({ email: z.string().optional() });
+type SignInParams = z.infer<typeof signInParamsSchema>;
 
 export const Route = createFileRoute("/_auth/sign-in")({
 	component: () => (
@@ -24,11 +28,15 @@ export const Route = createFileRoute("/_auth/sign-in")({
 			<SignInPage />
 		</>
 	),
+	validateSearch: (data: SignInParams) => signInParamsSchema.parse(data),
 });
 
 function SignInPage(): JSX.Element {
+	const { email } = Route.useSearch();
+
 	const form = useForm<SignInFormSchema>({
 		resolver: zodResolver(signInFormSchema),
+		defaultValues: { email },
 	});
 
 	const { mutateAsync: authenticate } = useMutation({ mutationFn: signIn });
