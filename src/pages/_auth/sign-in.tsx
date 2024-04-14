@@ -1,3 +1,4 @@
+import { signIn } from "@/api/sign-in";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -10,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { signInFormSchema, type SignInFormSchema } from "@/schemas/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
@@ -29,8 +31,10 @@ function SignInPage(): JSX.Element {
 		resolver: zodResolver(signInFormSchema),
 	});
 
+	const { mutateAsync: authenticate } = useMutation({ mutationFn: signIn });
+
 	async function handleSignIn(data: SignInFormSchema): Promise<void> {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+		authenticate({ email: data.email });
 
 		toast.success("Enviamos um link de autenticação para seu e-mail");
 	}

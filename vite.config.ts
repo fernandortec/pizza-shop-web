@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
 			TanStackRouterVite({
 				routesDirectory: "./src/pages",
 				routeFileIgnorePrefix: "-",
+				generatedRouteTree: "./src/@types/route-tree.gen.ts"
 			}),
 		],
 		resolve: {

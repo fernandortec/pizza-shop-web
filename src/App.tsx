@@ -3,9 +3,9 @@ import { Toaster } from "@/components/ui/sonner";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./global.css";
-import { routeTree } from "./routeTree.gen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query";
+import { routeTree } from "@/@types/route-tree.gen";
 
 const router = createRouter({ routeTree });
 

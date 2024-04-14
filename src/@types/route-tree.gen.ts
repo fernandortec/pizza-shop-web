@@ -10,13 +10,13 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './pages/__root'
-import { Route as DashboardImport } from './pages/_dashboard'
-import { Route as AuthImport } from './pages/_auth'
-import { Route as DashboardIndexImport } from './pages/_dashboard/index'
-import { Route as AuthSignUpImport } from './pages/_auth/sign-up'
-import { Route as AuthSignInImport } from './pages/_auth/sign-in'
-import { Route as DashboardOrdersIndexImport } from './pages/_dashboard/orders/index'
+import { Route as rootRoute } from './../pages/__root'
+import { Route as DashboardImport } from './../pages/_dashboard'
+import { Route as AuthImport } from './../pages/_auth'
+import { Route as DashboardIndexImport } from './../pages/_dashboard/index'
+import { Route as AuthSignUpImport } from './../pages/_auth/sign-up'
+import { Route as AuthSignInImport } from './../pages/_auth/sign-in'
+import { Route as DashboardOrdersIndexImport } from './../pages/_dashboard/orders/index'
 
 // Create/Update Routes
 
