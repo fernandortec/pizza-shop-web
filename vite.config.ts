@@ -9,6 +9,7 @@ export default defineConfig({
 		react(),
 		TanStackRouterVite({
 			routesDirectory: "./src/pages",
+			routeFileIgnorePrefix: "-",
 		}),
 	],
 	resolve: {
