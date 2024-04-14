@@ -1,3 +1,4 @@
+import { TablePagination } from "@/components/table-pagination";
 import {
 	Table,
 	TableBody,
@@ -49,6 +50,7 @@ function OrdersPage(): JSX.Element {
 						</TableBody>
 					</Table>
 				</div>
+				<TablePagination pageIndex={0} totalCount={105} perPage={10}/>
 			</section>
 		</main>
 	);
