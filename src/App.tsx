@@ -4,6 +4,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./global.css";
 import { routeTree } from "./routeTree.gen";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/react-query";
 
 const router = createRouter({ routeTree });
 
@@ -19,7 +21,9 @@ export function App(): JSX.Element {
 			<ThemeProvider storageKey="pizzashop-theme" defaultTheme="dark">
 				<Toaster richColors closeButton />
 				<Helmet titleTemplate="%s | pizza.shop" />
-				<RouterProvider router={router} />
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 			</ThemeProvider>
 		</HelmetProvider>
 	);
