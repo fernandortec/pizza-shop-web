@@ -1,16 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { priceFormatter } from "@/helpers/formatter";
+import { formatDistanceToNow, priceFormatter } from "@/helpers/formatter";
 import { OrderDetails } from "@/pages/_dashboard/orders/-order-details";
 import { OrderStatus } from "@/pages/_dashboard/orders/-order-status";
 import { ArrowRight, Search, X } from "lucide-react";
 
-import dayjs from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-import relativeTime from "dayjs/plugin/relativeTime";
-
 import "dayjs/locale/pt-br";
+import { useState } from "react";
 
 interface OrderTableRowProps {
 	order: {
@@ -23,18 +20,12 @@ interface OrderTableRowProps {
 }
 
 export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
-	function formatDistanceToNow(date: Date) {
-		dayjs.extend(advancedFormat);
-		dayjs.extend(relativeTime);
-
-		const targetDate = dayjs(date, { locale: "pt-br" });
-		return `Há ${targetDate.fromNow(true)}`;
-	}
+	const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
 	return (
 		<TableRow>
 			<TableCell>
-				<Dialog>
+				<Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
 					<DialogTrigger asChild>
 						<Button variant="outline" size="xs">
 							<Search className="h-3 w-3" />
@@ -42,7 +33,7 @@ export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
 						</Button>
 					</DialogTrigger>
 
-					<OrderDetails />
+					<OrderDetails orderId={order.orderId} open={isDetailsOpen} />
 				</Dialog>
 			</TableCell>
 			<TableCell className="font-mono text-xs font-medium">
@@ -57,7 +48,7 @@ export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
 			</TableCell>
 			<TableCell className="font-medium">{order.customerName}</TableCell>
 			<TableCell className="font-medium">
-				{priceFormatter.format(order.total)}
+				{priceFormatter.format(order.total / 100)}
 			</TableCell>
 			<TableCell>
 				<Button variant="outline" size="xs">
