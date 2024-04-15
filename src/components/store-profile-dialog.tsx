@@ -23,8 +23,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-	type UpdateStoreProfileSchema,
 	updateStoreProfileSchema,
+	type UpdateStoreProfileSchema,
 } from "@/schemas/store-profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -48,22 +48,42 @@ export function StoreProfileDialog() {
 		},
 	});
 
+	type UpdateManagedRestaurantContext = {
+		cached: GetManagedRestaurantResponse | null;
+	};
+
+	function updateManagedRestaurantCache({
+		description,
+		name,
+	}: UpdateStoreProfileSchema): UpdateManagedRestaurantContext {
+		const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
+			"managed-restaurant",
+		]);
+		if (!cached) return { cached: null };
+
+		queryClient.setQueryData<GetManagedRestaurantResponse>(
+			["managed-restaurant"],
+			{
+				...cached,
+				description,
+				name,
+			},
+		);
+
+		return { cached };
+	}
+
 	const { mutateAsync: updateProfileFn } = useMutation({
 		mutationFn: updateProfile,
-		onSuccess: (_, { description, name }): void => {
-			const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
-				"managed-restaurant",
-			]);
-			if (!cached) return;
+		onMutate({ description, name }): UpdateManagedRestaurantContext {
+			const { cached } = updateManagedRestaurantCache({ description, name });
 
-			queryClient.setQueryData<GetManagedRestaurantResponse>(
-				["managed-restaurant"],
-				{
-					...cached,
-					description,
-					name,
-				},
-			);
+			return { cached };
+		},
+		onError(_, __, context): void {
+			if (!context?.cached) return;
+
+			updateManagedRestaurantCache(context.cached);
 		},
 	});
 
@@ -131,7 +151,8 @@ export function StoreProfileDialog() {
 										id="description"
 										placeholder="Descreva um pouco seu estabelecimento"
 										className="col-span-3"
-										{...field}
+										value={field.value ?? ""}
+										onChange={field.onChange}
 									/>
 								</FormControl>
 								<FormMessage />

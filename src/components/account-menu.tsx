@@ -1,5 +1,6 @@
 import { GetManagedRestaurant } from "@/api/get-managed-restaurant";
 import { getProfile } from "@/api/get-profile";
+import { signOut } from "@/api/sign-out";
 import { StoreProfileDialog } from "@/components/store-profile-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -12,10 +13,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { Building, ChevronDown, LogOut } from "lucide-react";
 
 export function AccountMenu(): JSX.Element {
+	const navigate = useNavigate()
+
 	const { data: profile, isLoading: isLoadingProfile } = useQuery({
 		queryFn: getProfile,
 		queryKey: ["profile"],
@@ -27,6 +31,13 @@ export function AccountMenu(): JSX.Element {
 			queryKey: ["managed-restaurant"],
 			staleTime: Number.POSITIVE_INFINITY,
 		});
+
+	const { mutateAsync: signOutFn, isPending: isSigningOut } = useMutation({
+		mutationFn: signOut,
+		onSuccess: () => {
+			navigate({ to: "/sign-in" });
+		},
+	});
 
 	return (
 		<Dialog>
@@ -67,9 +78,15 @@ export function AccountMenu(): JSX.Element {
 							<span>Perfil da loja</span>
 						</DropdownMenuItem>
 					</DialogTrigger>
-					<DropdownMenuItem className="text-rose-500 dark:text-rose-400">
-						<LogOut className="w-4 h-4 mr-2" />
-						<span>Sair</span>
+					<DropdownMenuItem
+						className="text-rose-500 dark:text-rose-400"
+						disabled={isSigningOut}
+						asChild
+					>
+						<button onClick={() => signOutFn()} type="button" className="w-full">
+							<LogOut className="w-4 h-4 mr-2" />
+							<span>Sair</span>
+						</button>
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
