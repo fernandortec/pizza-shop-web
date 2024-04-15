@@ -29,7 +29,7 @@ export function OrderDetails({
 	open,
 }: OrderDetailsProps): JSX.Element {
 	const { data: order } = useQuery({
-		queryKey: ["order-details", orderId],
+		queryKey: ["orders", orderId],
 		queryFn: () => getOrderDetails({ orderId }),
 		enabled: open,
 	});

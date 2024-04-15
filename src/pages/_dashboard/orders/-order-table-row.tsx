@@ -6,6 +6,9 @@ import { OrderDetails } from "@/pages/_dashboard/orders/-order-details";
 import { OrderStatus } from "@/pages/_dashboard/orders/-order-status";
 import { ArrowRight, Search, X } from "lucide-react";
 
+import { cancelOrder } from "@/api/cancel-order";
+import type { GetOrdersResponse } from "@/api/get-orders";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import "dayjs/locale/pt-br";
 import { useState } from "react";
 
@@ -21,6 +24,37 @@ interface OrderTableRowProps {
 
 export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
 	const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+	const queryClient = useQueryClient();
+
+	const isOrderAllowedToBeCanceled = !["pending", "processing"].includes(
+		order.status,
+	);
+
+	const { mutateAsync: cancelOrderFn } = useMutation({
+		mutationFn: cancelOrder,
+		onSuccess: (_, { orderId }): void => {
+			const ordersListCached = queryClient.getQueriesData<GetOrdersResponse>({
+				queryKey: ["orders"],
+			});
+
+			for (const [cacheKey, cachedData] of ordersListCached) {
+				if (!cachedData) break;
+
+				const updatedOrders = cachedData.orders.map((order) =>
+					order.orderId === orderId ? { ...order, status: "canceled" } : order,
+				);
+
+				queryClient.setQueryData(cacheKey, {
+					...cachedData,
+					orders: updatedOrders,
+				});
+			}
+		},
+	});
+
+	function handleCancelOrder() {
+		cancelOrderFn({ orderId: order.orderId });
+	}
 
 	return (
 		<TableRow>
@@ -57,7 +91,12 @@ export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
 				</Button>
 			</TableCell>
 			<TableCell>
-				<Button variant="ghost" size="xs">
+				<Button
+					disabled={isOrderAllowedToBeCanceled}
+					onClick={handleCancelOrder}
+					variant="ghost"
+					size="xs"
+				>
 					<X className="h-3 w-3 mr-2" />
 					Cancelar
 				</Button>
