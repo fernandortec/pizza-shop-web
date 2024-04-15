@@ -1,17 +1,36 @@
 import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { priceFormatter } from "@/helpers/formatter";
 import { OrderDetails } from "@/pages/_dashboard/orders/-order-details";
+import { OrderStatus } from "@/pages/_dashboard/orders/-order-status";
 import { ArrowRight, Search, X } from "lucide-react";
 
-export function OrderTableRow(): JSX.Element {
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+import "dayjs/locale/pt-br";
+
+interface OrderTableRowProps {
+	order: {
+		orderId: string;
+		createdAt: string;
+		status: "pending" | "canceled" | "processing" | "delivering" | "delivered";
+		customerName: string;
+		total: number;
+	};
+}
+
+export function OrderTableRow({ order }: OrderTableRowProps): JSX.Element {
+	function formatDistanceToNow(date: Date) {
+		dayjs.extend(advancedFormat);
+		dayjs.extend(relativeTime);
+
+		const targetDate = dayjs(date, { locale: "pt-br" });
+		return `Há ${targetDate.fromNow(true)}`;
+	}
+
 	return (
 		<TableRow>
 			<TableCell>
@@ -23,22 +42,23 @@ export function OrderTableRow(): JSX.Element {
 						</Button>
 					</DialogTrigger>
 
-				<OrderDetails />
+					<OrderDetails />
 				</Dialog>
 			</TableCell>
 			<TableCell className="font-mono text-xs font-medium">
-				d982hd-ih12-bdasasdas-13981hdcha
+				{order.orderId}
 			</TableCell>
-			<TableCell className="text-muted-foreground">Há 15 minutos</TableCell>
+			<TableCell className="text-muted-foreground">
+				{formatDistanceToNow(new Date(order.createdAt))}
+			</TableCell>
 
 			<TableCell>
-				<div className="flex items-center gap-2">
-					<span className="h-2 w-2 rounded-full bg-slate-400" />
-					<span className="font-medium text-muted-foreground">Pendente</span>
-				</div>
+				<OrderStatus status={order.status} />
 			</TableCell>
-			<TableCell className="font-medium">Fernando Rodrigues</TableCell>
-			<TableCell className="font-medium">R$ 159,90</TableCell>
+			<TableCell className="font-medium">{order.customerName}</TableCell>
+			<TableCell className="font-medium">
+				{priceFormatter.format(order.total)}
+			</TableCell>
 			<TableCell>
 				<Button variant="outline" size="xs">
 					<ArrowRight className="h-3 w-3 mr-2" />

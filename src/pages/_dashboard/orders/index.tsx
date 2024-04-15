@@ -1,3 +1,4 @@
+import { getOrders } from "@/api/get-orders";
 import { TablePagination } from "@/components/table-pagination";
 import {
 	Table,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { OrderTableFilters } from "@/pages/_dashboard/orders/-order-table-filters";
 import { OrderTableRow } from "@/pages/_dashboard/orders/-order-table-row";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 
@@ -21,6 +23,11 @@ export const Route = createFileRoute("/_dashboard/orders/")({
 });
 
 function OrdersPage(): JSX.Element {
+	const { data: result } = useQuery({
+		queryKey: ["orders"],
+		queryFn: getOrders,
+	});
+
 	return (
 		<main className="flex flex-col gap-4">
 			<h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
@@ -43,14 +50,13 @@ function OrdersPage(): JSX.Element {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{Array.from({ length: 10 }).map((_, i) => (
-								// biome-ignore lint/suspicious/noArrayIndexKey:
-								<OrderTableRow key={i} />
+							{result?.orders.map((order) => (
+								<OrderTableRow key={order.orderId} order={order} />
 							))}
 						</TableBody>
 					</Table>
 				</div>
-				<TablePagination pageIndex={0} totalCount={105} perPage={10}/>
+				<TablePagination pageIndex={0} totalCount={105} perPage={10} />
 			</section>
 		</main>
 	);
