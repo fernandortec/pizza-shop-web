@@ -9,9 +9,15 @@ import {
 } from "@/components/ui/table";
 import { OrderTableFilters } from "@/pages/_dashboard/orders/-order-table-filters";
 import { OrderTableRow } from "@/pages/_dashboard/orders/-order-table-row";
+import { orderFiltersSchema } from "@/schemas/order-filters";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
+import { z } from "zod";
+
+const searchParamsSchema = orderFiltersSchema.extend({
+	page: z.coerce.number().min(1).optional(),
+});
 
 export const Route = createFileRoute("/_dashboard/orders/")({
 	component: () => (
@@ -20,13 +26,32 @@ export const Route = createFileRoute("/_dashboard/orders/")({
 			<OrdersPage />
 		</>
 	),
+	validateSearch: (data) => searchParamsSchema.parse(data),
 });
 
 function OrdersPage(): JSX.Element {
+	const navigate = useNavigate({ from: Route.fullPath });
+	const searchParams = Route.useSearch();
+
+	const page = searchParams.page ?? 1;
+	const pageIndex = page - 1;
+
+	const { customerName, orderId, status } = searchParams;
+
+	const statusWithNoAll = status === "all" ? null : status;
+
 	const { data: result } = useQuery({
-		queryKey: ["orders"],
-		queryFn: getOrders,
+		queryKey: ["orders", pageIndex, customerName, orderId, status],
+		queryFn: () =>
+			getOrders({ pageIndex, customerName, orderId, status: statusWithNoAll }),
 	});
+
+	function handleChangePage(pageIndex: number): void {
+		navigate({
+			to: "/orders",
+			search: (prev) => ({ ...prev, page: pageIndex + 1 }),
+		});
+	}
 
 	return (
 		<main className="flex flex-col gap-4">
@@ -56,7 +81,14 @@ function OrdersPage(): JSX.Element {
 						</TableBody>
 					</Table>
 				</div>
-				<TablePagination pageIndex={0} totalCount={105} perPage={10} />
+				{result && (
+					<TablePagination
+						pageIndex={result.meta.pageIndex}
+						totalCount={result.meta.totalCount}
+						perPage={result.meta.perPage}
+						onPageChange={handleChangePage}
+					/>
+				)}
 			</section>
 		</main>
 	);

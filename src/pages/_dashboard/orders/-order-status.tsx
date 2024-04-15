@@ -18,18 +18,18 @@ const orderStatusMap: { [key in AllOrdersStatus]: string } = {
 };
 
 const orderStatusColorMap: { [key in AllOrdersStatus]: string } = {
-	canceled: "rose-500",
-	delivered: "amber-500",
-	delivering: "emerald-500",
-	pending: "slate-400",
-	processing: "amber-500",
+	canceled: "bg-rose-500",
+	delivered: "bg-green-500",
+	delivering: "bg-emerald-500",
+	pending: "bg-slate-400",
+	processing: "bg-amber-500",
 };
 
 export function OrderStatus({ status }: OrderStatusProps): JSX.Element {
 	return (
 		<div className="flex items-center gap-2">
 			<span
-				className={`h-2 w-2 rounded-full bg-${orderStatusColorMap[status]}`}
+				className={`h-2 w-2 rounded-full ${orderStatusColorMap[status]} `}
 			/>
 			<span className="font-medium text-muted-foreground">
 				{orderStatusMap[status]}
