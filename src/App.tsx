@@ -19,7 +19,7 @@ export function App(): JSX.Element {
 	return (
 		<HelmetProvider>
 			<ThemeProvider storageKey="pizzashop-theme" defaultTheme="dark">
-				<Toaster richColors closeButton />
+				<Toaster richColors  />
 				<Helmet titleTemplate="%s | pizza.shop" />
 				<QueryClientProvider client={queryClient}>
 					<RouterProvider router={router} />
