@@ -1,5 +1,6 @@
 import { getMonthCanceledOrdersAmount } from "@/api/get-month-canceled-orders-amount";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { MetricCardSkeleton } from "@/pages/_dashboard/_components/-metric-card-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { DollarSign } from "lucide-react";
 
@@ -15,7 +16,7 @@ export function MonthCanceledOrdersAmountCard(): JSX.Element {
 				<DollarSign className="w-4 g-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent className="space-y-1">
-				{monthCanceledOrdersAmount && (
+				{monthCanceledOrdersAmount ? (
 					<>
 						<span className="text-2xl font-bold tracking-tight">
 							{monthCanceledOrdersAmount.amount}
@@ -33,7 +34,7 @@ export function MonthCanceledOrdersAmountCard(): JSX.Element {
 							em relação ao mês passado
 						</p>
 					</>
-				)}
+				): <MetricCardSkeleton />}
 			</CardContent>
 		</Card>
 	);

@@ -22,6 +22,7 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import dayjs from "dayjs";
+import { Loader2 } from "lucide-react";
 
 export function RevenueChart(): JSX.Element {
 	const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -36,10 +37,10 @@ export function RevenueChart(): JSX.Element {
 	});
 
 	const chartData = useMemo(() => {
-		return dailyRevenueInPeriod?.map(chartItem => ({
+		return dailyRevenueInPeriod?.map((chartItem) => ({
 			date: chartItem.date,
-			receipt: chartItem.receipt / 100
-		}))
+			receipt: chartItem.receipt / 100,
+		}));
 	}, [dailyRevenueInPeriod]);
 
 	return (
@@ -58,7 +59,7 @@ export function RevenueChart(): JSX.Element {
 				</div>
 			</CardHeader>
 			<CardContent>
-				{dailyRevenueInPeriod && (
+				{dailyRevenueInPeriod ? (
 					<ResponsiveContainer width="100%" height={240}>
 						<LineChart style={{ fontSize: 12 }} data={chartData}>
 							<XAxis dataKey="date" tickLine={false} axisLine={false} dy={16} />
@@ -83,6 +84,10 @@ export function RevenueChart(): JSX.Element {
 							/>
 						</LineChart>
 					</ResponsiveContainer>
+				) : (
+					<div className="flex h-[15rem] w-full items-center justify-center">
+						<Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+					</div>
 				)}
 			</CardContent>
 		</Card>

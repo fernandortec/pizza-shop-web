@@ -1,6 +1,7 @@
 import { getMonthRevenue } from "@/api/get-month-revenue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { priceFormatter } from "@/helpers/formatter";
+import { MetricCardSkeleton } from "@/pages/_dashboard/_components/-metric-card-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { DollarSign } from "lucide-react";
 
@@ -17,7 +18,7 @@ export function MonthRevenueCard(): JSX.Element {
 				<DollarSign className="w-4 g-4 text-muted-foreground" />
 			</CardHeader>
 			<CardContent className="space-y-1">
-				{monthRevenue && (
+				{monthRevenue ? (
 					<>
 						<span className="text-2xl font-bold tracking-tight">
 							{priceFormatter.format(monthRevenue.receipt / 100)}
@@ -35,6 +36,8 @@ export function MonthRevenueCard(): JSX.Element {
 							em relação ao mês passado
 						</p>
 					</>
+				) : (
+					<MetricCardSkeleton />
 				)}
 			</CardContent>
 		</Card>
