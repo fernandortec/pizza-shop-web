@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
 	API_URL: z.string().url(),
-	ENABLE_API_DELAY: z.coerce.boolean().optional()
+	ENABLE_API_DELAY: z.coerce.boolean().optional(),
 });
 
 const envSafeParseData = envSchema.parse(process.env);

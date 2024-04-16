@@ -34,7 +34,9 @@ export function MonthCanceledOrdersAmountCard(): JSX.Element {
 							em relação ao mês passado
 						</p>
 					</>
-				): <MetricCardSkeleton />}
+				) : (
+					<MetricCardSkeleton />
+				)}
 			</CardContent>
 		</Card>
 	);

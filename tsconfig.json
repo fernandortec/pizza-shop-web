@@ -25,7 +25,7 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "env.ts", "happydom.ts"],
+	"include": ["src", "env.ts", "./test/setup.ts"],
 	"exclude": ["node_modules"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

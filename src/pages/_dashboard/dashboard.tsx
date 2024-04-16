@@ -7,7 +7,7 @@ import { RevenueChart } from "@/pages/_dashboard/_components/-revenue-chart";
 import { createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 
-export const Route = createFileRoute("/_dashboard/")({
+export const Route = createFileRoute("/_dashboard/dashboard")({
 	component: () => (
 		<>
 			<Helmet title="Dashboard" />

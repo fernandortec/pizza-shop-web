@@ -20,7 +20,7 @@ const searchParamsSchema = orderFiltersSchema.extend({
 	page: z.coerce.number().min(1).optional(),
 });
 
-export const Route = createFileRoute("/_dashboard/orders/")({
+export const Route = createFileRoute("/_dashboard/orders/orders")({
 	component: () => (
 		<>
 			<Helmet title="Pedidos" />
