@@ -1,10 +1,12 @@
 import { resolve } from "node:path";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
+import { type UserConfig, loadEnv, defineConfig } from "vite";
+
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+
+export default defineConfig(({ mode }): UserConfig => {
 	const env = loadEnv(mode, process.cwd(), "");
 
 	return {
@@ -13,7 +15,7 @@ export default defineConfig(({ mode }) => {
 			TanStackRouterVite({
 				routesDirectory: "./src/pages",
 				routeFileIgnorePrefix: "-",
-				generatedRouteTree: "./src/@types/route-tree.gen.ts"
+				generatedRouteTree: "./src/@types/route-tree.gen.ts",
 			}),
 		],
 		resolve: {
