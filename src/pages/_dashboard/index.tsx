@@ -1,9 +1,9 @@
-import { DayOrdersAmountCard } from "@/pages/_dashboard/-day-orders-amount-card";
-import { MonthCanceledOrdersAmountCard } from "@/pages/_dashboard/-month-canceled-orders-amount-card";
-import { MonthOrdersAmount } from "@/pages/_dashboard/-month-orders-amount-card";
-import { MonthRevenueCard } from "@/pages/_dashboard/-month-revenue-card";
-import { PopularProductsChart } from "@/pages/_dashboard/-popular-products-chart";
-import { RevenueChart } from "@/pages/_dashboard/-revenue-chart";
+import { DayOrdersAmountCard } from "@/pages/_dashboard/_components/-day-orders-amount-card";
+import { MonthCanceledOrdersAmountCard } from "@/pages/_dashboard/_components/-month-canceled-orders-amount-card";
+import { MonthOrdersAmount } from "@/pages/_dashboard/_components/-month-orders-amount-card";
+import { MonthRevenueCard } from "@/pages/_dashboard/_components/-month-revenue-card";
+import { PopularProductsChart } from "@/pages/_dashboard/_components/-popular-products-chart";
+import { RevenueChart } from "@/pages/_dashboard/_components/-revenue-chart";
 import { createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 

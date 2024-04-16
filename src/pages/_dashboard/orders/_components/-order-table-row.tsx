@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDistanceToNow, priceFormatter } from "@/helpers/formatter";
-import { OrderDetails } from "@/pages/_dashboard/orders/-order-details";
-import { OrderStatus } from "@/pages/_dashboard/orders/-order-status";
+import { OrderDetails } from "@/pages/_dashboard/orders/_components/-order-details";
+import { OrderStatus } from "@/pages/_dashboard/orders/_components/-order-status";
 import { ArrowRight, Search, X } from "lucide-react";
 
 import { approveOrder } from "@/api/approve-order";

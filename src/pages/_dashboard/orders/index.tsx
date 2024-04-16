@@ -7,8 +7,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { OrderTableFilters } from "@/pages/_dashboard/orders/-order-table-filters";
-import { OrderTableRow } from "@/pages/_dashboard/orders/-order-table-row";
+import { OrderTableFilters } from "@/pages/_dashboard/orders/_components/-order-table-filters";
+import { OrderTableRow } from "@/pages/_dashboard/orders/_components/-order-table-row";
 import { orderFiltersSchema } from "@/schemas/order-filters";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";

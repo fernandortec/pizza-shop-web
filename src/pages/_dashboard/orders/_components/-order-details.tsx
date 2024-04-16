@@ -16,7 +16,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow, priceFormatter } from "@/helpers/formatter";
-import { OrderStatus } from "@/pages/_dashboard/orders/-order-status";
+import { OrderStatus } from "@/pages/_dashboard/orders/_components/-order-status";
 import { useQuery } from "@tanstack/react-query";
 
 interface OrderDetailsProps {
