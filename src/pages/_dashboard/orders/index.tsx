@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { OrderTableFilters } from "@/pages/_dashboard/orders/_components/-order-table-filters";
 import { OrderTableRow } from "@/pages/_dashboard/orders/_components/-order-table-row";
+import { OrderTableSkeleton } from "@/pages/_dashboard/orders/_components/-order-table-skeleton";
 import { orderFiltersSchema } from "@/schemas/order-filters";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -40,7 +41,7 @@ function OrdersPage(): JSX.Element {
 
 	const statusWithNoAll = status === "all" ? null : status;
 
-	const { data: result } = useQuery({
+	const { data: result, isLoading: isLoadingOrders } = useQuery({
 		queryKey: ["orders", pageIndex, customerName, orderId, status],
 		queryFn: () =>
 			getOrders({ pageIndex, customerName, orderId, status: statusWithNoAll }),
@@ -75,6 +76,7 @@ function OrdersPage(): JSX.Element {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
+							{isLoadingOrders && <OrderTableSkeleton />}
 							{result?.orders.map((order) => (
 								<OrderTableRow key={order.orderId} order={order} />
 							))}

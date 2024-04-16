@@ -16,6 +16,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow, priceFormatter } from "@/helpers/formatter";
+import { OrderDetailsSkeleton } from "@/pages/_dashboard/orders/_components/-order-details-skeleton";
 import { OrderStatus } from "@/pages/_dashboard/orders/_components/-order-status";
 import { useQuery } from "@tanstack/react-query";
 
@@ -41,21 +42,14 @@ export function OrderDetails({
 				<DialogDescription>Detalhes do pedido</DialogDescription>
 			</DialogHeader>
 
-			{order && (
+			{order ? (
 				<div className="space-y-6">
 					<Table>
 						<TableBody>
 							<TableRow>
-								<TableCell className="text-muted-foreground">
-									<OrderStatus status={order.status} />
-								</TableCell>
+								<TableCell className="text-muted-foreground">Status</TableCell>
 								<TableCell className="flex justify-end">
-									<div className="flex items-center gap-2">
-										<span className="h-2 w-2 rounded-full bg-slate-400" />
-										<span className="font-medium text-muted-foreground">
-											Pendente
-										</span>
-									</div>
+									<OrderStatus status={order.status} />
 								</TableCell>
 							</TableRow>
 							<TableRow>
@@ -128,6 +122,8 @@ export function OrderDetails({
 						</TableFooter>
 					</Table>
 				</div>
+			) : (
+				<OrderDetailsSkeleton />
 			)}
 		</DialogContent>
 	);
