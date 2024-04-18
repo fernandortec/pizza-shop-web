@@ -5,47 +5,51 @@ import {
 	createMemoryHistory,
 	createRootRoute,
 	createRoute,
-	createRouter
+	createRouter,
+	redirect,
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
 import { describe, it } from "bun:test";
+import { link } from "fs";
 
 describe("Nav Link", () => {
-	it.skip("should highlight when the nav link when is the current page link", async () => {
-		function createTestRouter(component: () => JSX.Element) {
-			const rootRoute = createRootRoute({
-				component: () => <Outlet />,
-			});
+	it("should highlight when the nav link when is the current page link", async () => {
+		const rootRoute = createRootRoute();
 
-			const componentRoute = createRoute({
-				getParentRoute: () => rootRoute,
-				path: "/",
-				component,
-			});
-
-			const router = createRouter({
-				routeTree: rootRoute.addChildren([componentRoute]),
-				history: createMemoryHistory({ initialEntries: ["/"] }),
-			});
-
-			return router;
-		}
-
-		const router = createTestRouter(() => <NavLink to="/">about</NavLink>);
-		const link = render(<NavLink to="/">about</NavLink>, {
-			wrapper: ({ children }) => (
-				<RouterProvider
-					router={router}
-					InnerWrap={({ children: routeChild }) => (
-						<div>
-							{children}
-							{routeChild}
-						</div>
-					)}
-				/>
-			),
+		const indexRoute = createRoute({
+			path: "/",
+			getParentRoute: () => rootRoute,
+			beforeLoad: () => {
+				throw redirect({
+					to: "/about",
+				});
+			},
 		});
+
+		const aboutRoute = createRoute({
+			path: "/about",
+			getParentRoute: () => rootRoute,
+			component: () => {
+				return "About";
+			},
+		});
+
+		const router = createRouter({
+			history: createMemoryHistory({
+				initialEntries: ["/"],
+			}),
+			routeTree: rootRoute.addChildren([indexRoute, aboutRoute]),
+		});
+
+		// Mock server mode
+		router.isServer = true;
+
+		await router.load();
+
+		const link = render(<NavLink to="/about">about</NavLink>, {
+			wrapper: () => <RouterProvider router={router} />,
+		});
+		
 		link.debug();
 	});
 });
-
