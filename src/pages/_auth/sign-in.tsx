@@ -42,9 +42,15 @@ function SignInPage(): JSX.Element {
 	const { mutateAsync: authenticate } = useMutation({ mutationFn: signIn });
 
 	async function handleSignIn(data: SignInFormSchema): Promise<void> {
-		authenticate({ email: data.email });
+		try {
+			await authenticate({ email: data.email });
+			toast.success("Enviamos um link de autenticação para seu e-mail");
 
-		toast.success("Enviamos um link de autenticação para seu e-mail");
+		} catch (error) {
+			toast.error(
+				"Houve um erro ao acessar o painel, verifique os dados e tente novamente",
+			);
+		}
 	}
 
 	const isFormSubmitting = form.formState.isSubmitting;

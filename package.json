@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "bunx --bun vite",
-		"dev:test": "bunx --bun vite --port 5175 --mode test",
+		"dev:test": "bunx --bun vite --mode test --port 5175",
 		"build": "bunx --bun vite build",
 		"preview": "vite preview",
 		"test": "bunx --bun test"
@@ -38,7 +38,7 @@
 		"sonner": "^1.4.41",
 		"tailwind-merge": "^2.2.2",
 		"tailwindcss-animate": "^1.0.7",
-		"zod": "^3.22.4"
+		"zod": "^3.23.0-beta.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.7.0",
