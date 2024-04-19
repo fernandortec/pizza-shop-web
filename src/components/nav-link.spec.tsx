@@ -15,31 +15,16 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 it("should highlight when the nav link when is the current page link", async () => {
 	const rootRoute = createRootRoute({ component: () => <Outlet /> });
-
-	const indexRoute = createRoute({
+	const componentRoute = createRoute({
 		path: "/",
 		getParentRoute: () => rootRoute,
-		beforeLoad: () => {
-			// throw redirect({ to: "/about" as any });
-		},
 		component: () => <NavLink to='/about'>index to about</NavLink>,
 	});
-
-	const aboutRoute = createRoute({
-		path: "about",
-		getParentRoute: () => rootRoute,
-		component: () => {
-			return <NavLink to='/'>about to index</NavLink>;
-		},
-	});
-
-	const routeTree = rootRoute.addChildren([aboutRoute, indexRoute]);
-
 	const router = createRouter({
 		history: createMemoryHistory({
 			initialEntries: ["/"],
 		}),
-		routeTree,
+		routeTree: rootRoute.addChildren([componentRoute]),
 	});
 
 	// Mock server mode
@@ -47,8 +32,6 @@ it("should highlight when the nav link when is the current page link", async () 
 	router.isServer = true;
 
 	await router.load();
-
-	// console.log(router.state);
 
 	const link = render(<RouterProvider router={router} />);
 
