@@ -6,39 +6,24 @@ import {
 	createRootRoute,
 	createRoute,
 	createRouter,
-	redirect,
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
+
 import { describe, it } from "bun:test";
-import { link } from "fs";
 
 describe("Nav Link", () => {
 	it("should highlight when the nav link when is the current page link", async () => {
-		const rootRoute = createRootRoute();
-
-		const indexRoute = createRoute({
+		const rootRoute = createRootRoute({ component: () => <Outlet /> });
+		const componentRoute = createRoute({
 			path: "/",
 			getParentRoute: () => rootRoute,
-			beforeLoad: () => {
-				throw redirect({
-					to: "/about",
-				});
-			},
+			component: () => <NavLink to='/about'>index to about</NavLink>,
 		});
-
-		const aboutRoute = createRoute({
-			path: "/about",
-			getParentRoute: () => rootRoute,
-			component: () => {
-				return "About";
-			},
-		});
-
 		const router = createRouter({
 			history: createMemoryHistory({
 				initialEntries: ["/"],
 			}),
-			routeTree: rootRoute.addChildren([indexRoute, aboutRoute]),
+			routeTree: rootRoute.addChildren([componentRoute]),
 		});
 
 		// Mock server mode
@@ -46,10 +31,8 @@ describe("Nav Link", () => {
 
 		await router.load();
 
-		const link = render(<NavLink to="/about">about</NavLink>, {
-			wrapper: () => <RouterProvider router={router} />,
-		});
-		
+		const link = render(<RouterProvider router={router} />);
+
 		link.debug();
 	});
 });
