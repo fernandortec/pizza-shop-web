@@ -8,7 +8,7 @@ import { DollarSign } from "lucide-react";
 export function MonthRevenueCard(): JSX.Element {
 	const { data: monthRevenue } = useQuery({
 		queryFn: getMonthRevenue,
-		queryKey: ["metrics", "month-canceled-orders-amount"],
+		queryKey: ["metrics", "month-receipt"],
 	});
 
 	return (

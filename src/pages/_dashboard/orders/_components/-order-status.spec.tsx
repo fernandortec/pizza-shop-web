@@ -18,4 +18,28 @@ describe("Order status", () => {
 		expect(wrapper.getByText("Cancelado")).toBeInTheDocument();
 		expect(badgeElement).toHaveClass("bg-rose-500");
 	});
+
+	it("should display the right text when order status is canceled", () => {
+		const wrapper = render(<OrderStatus status="processing" />);
+		const badgeElement = wrapper.getByTestId("badge");
+
+		expect(wrapper.getByText("Em preparo")).toBeInTheDocument();
+		expect(badgeElement).toHaveClass("bg-amber-500");
+	});
+
+	it("should display the right text when order status is canceled", () => {
+		const wrapper = render(<OrderStatus status="delivering" />);
+		const badgeElement = wrapper.getByTestId("badge");
+
+		expect(wrapper.getByText("Em entrega")).toBeInTheDocument();
+		expect(badgeElement).toHaveClass("bg-emerald-500");
+	});
+
+	it("should display the right text when order status is canceled", () => {
+		const wrapper = render(<OrderStatus status="delivered" />);
+		const badgeElement = wrapper.getByTestId("badge");
+
+		expect(wrapper.getByText("Entregue")).toBeInTheDocument();
+		expect(badgeElement).toHaveClass("bg-green-500");
+	});
 });

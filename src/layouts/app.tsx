@@ -19,8 +19,11 @@ export function AppLayout({ children }: AppLayoutProps): JSX.Element {
 					const status = error.response?.status;
 					const code = error.response?.data.code;
 					console.log(error, "<>");
-					if (status === 401 && code === "UNAUTHORIZED")
+					if (status === 401 && code === "UNAUTHORIZED") {
 						navigate({ to: "/sign-in", replace: true });
+					} else {
+						throw error;
+					}
 				}
 			},
 		);

@@ -50,6 +50,7 @@ export function TablePagination({
 
 				<div className="flex items-center gap-2">
 					<PaginationLink
+						data-testid="first"
 						onClick={handleSelectFirstPage}
 						className="h-8 w-8 p-0"
 						disabled={pageIndex === 0}
@@ -70,6 +71,7 @@ export function TablePagination({
 					/>
 
 					<PaginationLink
+						data-testid="last"
 						onClick={handleSelectLastPage}
 						className="h-8 w-8 p-0"
 						disabled={pages <= pageIndex + 1}

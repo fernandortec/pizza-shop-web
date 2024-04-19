@@ -9,9 +9,8 @@ import {
 	redirect,
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
-import { it } from "bun:test";
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { it } from "bun:test";
 
 it("should highlight when the nav link when is the current page link", async () => {
 	const rootRoute = createRootRoute({ component: () => <Outlet /> });

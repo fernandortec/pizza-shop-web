@@ -13,10 +13,10 @@
 import { Route as rootRoute } from './../pages/__root'
 import { Route as DashboardImport } from './../pages/_dashboard'
 import { Route as AuthImport } from './../pages/_auth'
-import { Route as DashboardDashboardImport } from './../pages/_dashboard/dashboard'
+import { Route as DashboardIndexImport } from './../pages/_dashboard/index'
 import { Route as AuthSignUpImport } from './../pages/_auth/sign-up'
 import { Route as AuthSignInImport } from './../pages/_auth/sign-in'
-import { Route as DashboardOrdersOrdersImport } from './../pages/_dashboard/orders/orders'
+import { Route as DashboardOrdersIndexImport } from './../pages/_dashboard/orders/index'
 
 // Create/Update Routes
 
@@ -30,8 +30,8 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardDashboardRoute = DashboardDashboardImport.update({
-  path: '/dashboard',
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -45,8 +45,8 @@ const AuthSignInRoute = AuthSignInImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const DashboardOrdersOrdersRoute = DashboardOrdersOrdersImport.update({
-  path: '/orders/orders',
+const DashboardOrdersIndexRoute = DashboardOrdersIndexImport.update({
+  path: '/orders/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -70,12 +70,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignUpImport
       parentRoute: typeof AuthImport
     }
-    '/_dashboard/dashboard': {
-      preLoaderRoute: typeof DashboardDashboardImport
+    '/_dashboard/': {
+      preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof DashboardImport
     }
-    '/_dashboard/orders/orders': {
-      preLoaderRoute: typeof DashboardOrdersOrdersImport
+    '/_dashboard/orders/': {
+      preLoaderRoute: typeof DashboardOrdersIndexImport
       parentRoute: typeof DashboardImport
     }
   }
@@ -85,10 +85,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthSignInRoute, AuthSignUpRoute]),
-  DashboardRoute.addChildren([
-    DashboardDashboardRoute,
-    DashboardOrdersOrdersRoute,
-  ]),
+  DashboardRoute.addChildren([DashboardIndexRoute, DashboardOrdersIndexRoute]),
 ])
 
 /* prettier-ignore-end */
