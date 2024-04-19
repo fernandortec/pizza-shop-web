@@ -48,7 +48,7 @@ it("should highlight when the nav link when is the current page link", async () 
 
 	await router.load();
 
-	console.log(router.state);
+	// console.log(router.state);
 
 	const link = render(<RouterProvider router={router} />);
 
