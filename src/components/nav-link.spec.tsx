@@ -11,7 +11,7 @@ import { render } from "@testing-library/react";
 
 import { describe, it } from "bun:test";
 
-describe("NavLink", () => {
+describe("Nav Link", () => {
 	it("should highlight when the nav link when is the current page link", async () => {
 		const rootRoute = createRootRoute({ component: () => <Outlet /> });
 		const componentRoute = createRoute({
@@ -27,7 +27,6 @@ describe("NavLink", () => {
 		});
 
 		// Mock server mode
-		// @ts-expect-error
 		router.isServer = true;
 
 		await router.load();
