@@ -9,6 +9,7 @@ export function MonthCanceledOrdersAmountCard(): JSX.Element {
 		queryFn: getMonthCanceledOrdersAmount,
 		queryKey: ["metrics", "month-canceled-orders-amount"],
 	});
+
 	return (
 		<Card>
 			<CardHeader className="flex flex-row space-y-0 items-center justify-between pb-2">

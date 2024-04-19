@@ -8,6 +8,6 @@ export const getMonthRevenueMock = http.get<
 >(
 	"http://localhost:3333/metrics/month-receipt",
 	(): StrictResponse<GetMonthRevenueResponse> => {
-		return HttpResponse.json({ receipt: 29000, diffFromLastMonth: 0 });
+		return HttpResponse.json({ receipt: 29000, diffFromLastMonth: 10 });
 	},
 );

@@ -8,6 +8,6 @@ export const getMonthCanceledOrdersAmountMock = http.get<
 >(
 	"http://localhost:3333/metrics/month-canceled-orders-amount",
 	(): StrictResponse<GetMonthCanceledOrdersAmountResponse> => {
-		return HttpResponse.json({ amount: 5, diffFromLastMonth: 10 });
+		return HttpResponse.json({ amount: 10, diffFromLastMonth: 2 });
 	},
 );
