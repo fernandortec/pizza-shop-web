@@ -9,30 +9,36 @@ import {
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
 
-import { describe, it } from "bun:test";
+import { describe, it, expect } from "bun:test";
 
 describe("Nav Link", () => {
 	it("should highlight when the nav link when is the current page link", async () => {
 		const rootRoute = createRootRoute({ component: () => <Outlet /> });
-		const componentRoute = createRoute({
-			path: "/",
+		const aboutRoute = createRoute({
+			path: "/about",
 			getParentRoute: () => rootRoute,
-			component: () => <NavLink to='/about'>index to about</NavLink>,
-		});
-		const router = createRouter({
-			history: createMemoryHistory({
-				initialEntries: ["/"],
-			}),
-			routeTree: rootRoute.addChildren([componentRoute]),
+			component: () => (
+				<>
+					<NavLink to="/about">About</NavLink>
+					<NavLink to="/home">Home</NavLink>
+				</>
+			),
 		});
 
-		// Mock server mode
+		const router = createRouter({
+			history: createMemoryHistory({
+				initialEntries: ["/about"],
+			}),
+			routeTree: rootRoute.addChildren([aboutRoute]),
+		});
+
 		router.isServer = true;
 
 		await router.load();
 
-		const link = render(<RouterProvider router={router} />);
+		const wrapper = render(<RouterProvider router={router} />);
 
-		link.debug();
+		expect(wrapper.getByText("About").dataset.current).toEqual("true");
+		expect(wrapper.getByText("Home").dataset.current).toEqual("false");
 	});
 });
