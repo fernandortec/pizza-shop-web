@@ -7,7 +7,7 @@ import { describe, expect, it } from "bun:test";
 
 describe("Sign IN", () => {
 	it("should set default email input value if email is present on search params", async () => {
-		const wrapper = await CustomRouterProvider({
+		const { wrapper } = await CustomRouterProvider({
 			path: "/sign-in",
 			element: (
 				<QueryClientProvider client={queryClient}>

@@ -24,14 +24,18 @@ import { Search, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export function OrderTableFilters(): JSX.Element {
-	const navigate = useNavigate();
+	const navigate = useNavigate({ from: "/orders" });
 	const { customerName, orderId, status } = useSearch({
 		from: "/_dashboard/orders/",
 	});
 
 	const form = useForm<OrderFiltersSchema>({
 		resolver: zodResolver(orderFiltersSchema),
-		defaultValues: { customerName, orderId, status: status ?? "all" },
+		defaultValues: {
+			customerName: customerName ?? "",
+			orderId: orderId ?? "",
+			status: status ?? "all",
+		},
 	});
 
 	function handleAddFilters({
@@ -98,14 +102,17 @@ export function OrderTableFilters(): JSX.Element {
 						<FormItem>
 							<FormControl>
 								<Select value={field.value} onValueChange={field.onChange}>
-									<SelectTrigger className="h-8 w-[11.25rem]">
+									<SelectTrigger
+										className="h-8 w-[11.25rem]"
+										data-testid="select"
+									>
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value="all">Todos status</SelectItem>
 										<SelectItem value="pending">Pendente</SelectItem>
 										<SelectItem value="canceled">Cancelado</SelectItem>
-										<SelectItem value="processo">Em preparo</SelectItem>
+										<SelectItem value="progress">Em preparo</SelectItem>
 										<SelectItem value="delivering">Em entrega</SelectItem>
 										<SelectItem value="delivered">Entregue</SelectItem>
 									</SelectContent>

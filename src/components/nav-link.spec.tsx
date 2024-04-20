@@ -5,7 +5,7 @@ import { describe, expect, it } from "bun:test";
 
 describe("Nav Link", () => {
 	it("should highlight when the nav link when is the current page link", async () => {
-		const wrapper = await CustomRouterProvider({
+		const { wrapper } = await CustomRouterProvider({
 			element: (
 				<>
 					<NavLink to="/about">About</NavLink>

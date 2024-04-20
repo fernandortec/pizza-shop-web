@@ -1,16 +1,14 @@
-import type { ReactNode } from "react";
 import {
 	Outlet,
+	type Router,
 	RouterProvider as TanStackRouterProvider,
 	createMemoryHistory,
 	createRootRoute,
 	createRoute,
 	createRouter,
 } from "@tanstack/react-router";
-import React from "react";
-import { type RenderResult, render } from "@testing-library/react";
 import type queries from "@testing-library/dom/types/queries";
-import path from "path";
+import { render, type RenderResult } from "@testing-library/react";
 
 interface RouterProviderProps {
 	path: string;
@@ -18,13 +16,16 @@ interface RouterProviderProps {
 	initialEntries?: string;
 }
 
+interface CustomRouterProviderOutput {
+	wrapper: RenderResult<typeof queries, HTMLElement, HTMLElement>;
+	router: Router;
+}
+
 export async function CustomRouterProvider({
 	element,
 	path,
 	initialEntries,
-}: RouterProviderProps): Promise<
-	RenderResult<typeof queries, HTMLElement, HTMLElement>
-> {
+}: RouterProviderProps): Promise<CustomRouterProviderOutput> {
 	const rootRoute = createRootRoute({ component: () => <Outlet /> });
 	const componentRoute = createRoute({
 		path,
@@ -45,5 +46,5 @@ export async function CustomRouterProvider({
 
 	const wrapper = render(<TanStackRouterProvider router={router} />);
 
-	return wrapper;
+	return { wrapper, router };
 }
