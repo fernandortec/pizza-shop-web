@@ -31,7 +31,7 @@ export const Route = createFileRoute("/_auth/sign-in")({
 	validateSearch: (data: SignInParams) => signInParamsSchema.parse(data),
 });
 
-function SignInPage(): JSX.Element {
+export function SignInPage(): JSX.Element {
 	const { email } = Route.useSearch();
 
 	const form = useForm<SignInFormSchema>({
