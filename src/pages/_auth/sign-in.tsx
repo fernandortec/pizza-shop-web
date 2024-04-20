@@ -48,7 +48,7 @@ export function SignInPage(): JSX.Element {
 
 		} catch (error) {
 			toast.error(
-				"Houve um erro ao acessar o painel, verifique os dados e tente novamente",
+				"Credenciais inválidas",
 			);
 		}
 	}

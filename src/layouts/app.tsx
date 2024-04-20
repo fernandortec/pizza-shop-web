@@ -18,7 +18,9 @@ export function AppLayout({ children }: AppLayoutProps): JSX.Element {
 				if (isAxiosError(error)) {
 					const status = error.response?.status;
 					const code = error.response?.data.code;
-					console.log(error, "<>");
+					console.error(error)
+
+
 					if (status === 401 && code === "UNAUTHORIZED") {
 						navigate({ to: "/sign-in", replace: true });
 					} else {
