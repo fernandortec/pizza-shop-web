@@ -39,6 +39,7 @@ function SignUpPage(): JSX.Element {
 	});
 
 	async function handleSignUp(data: SignUpFormSchema): Promise<void> {
+		try {
 		const { email, managerName, phone, restaurantName } = data;
 		await signUpRestaurant({ email, managerName, phone, restaurantName });
 
@@ -53,6 +54,9 @@ function SignUpPage(): JSX.Element {
 					}),
 			},
 		});
+		} catch {
+			toast.error("Erro ao realizar cadastro")
+		}	
 	}
 
 	const isFormSubmitting = form.formState.isSubmitting;
