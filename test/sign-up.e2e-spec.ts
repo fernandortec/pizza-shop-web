@@ -6,15 +6,13 @@ test("sign up sucessfully", async ({ page }) => {
 	await page.getByPlaceholder("Digite aqui o nome").fill("Pizza Shop");
 	await page.getByLabel("Seu nome").fill("John Doe");
 	await page.getByLabel("Seu e-mail").fill("johndoe@example.com");
-	await page.getByLabel("Seu celular").fill("1239871239812132");
+	await page.getByPlaceholder("Digite seu telefone").fill("1239871239812132");
 
-	page.getByRole("button", { name: "Finalizar cadastro" });
+	await page.getByRole("button", { name: "Finalizar cadastro" }).click();
 
 	const toast = page.getByText("Cadastro feito com sucesso");
 
-	expect(toast).toBeVisible();
-
-	await page.waitForTimeout(2000);
+	await expect(toast).toBeVisible();
 });
 
 test("sign up with error", async ({ page }) => {
@@ -23,15 +21,13 @@ test("sign up with error", async ({ page }) => {
 	await page.getByPlaceholder("Digite aqui o nome").fill("Invalid Name");
 	await page.getByLabel("Seu nome").fill("John Doe");
 	await page.getByLabel("Seu e-mail").fill("johndoe@example.com");
-	await page.getByLabel("Seu celular").fill("1239871239812132");
+	await page.getByPlaceholder("Digite seu telefone").fill("123412341234");
 
-	page.getByRole("button", { name: "Finalizar cadastro" });
+	await page.getByRole("button", { name: "Finalizar cadastro" }).click();
 
 	const toast = page.getByText("Erro ao realizar cadastro");
 
-	expect(toast).toBeVisible();
-
-	await page.waitForTimeout(2000);
+	await expect(toast).toBeVisible();
 });
 
 test("navigate to login page", async ({ page }) => {
